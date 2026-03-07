@@ -1,4 +1,5 @@
-[![npm](https://img.shields.io/npm/v/webext-badge)](https://www.npmjs.com/package/webext-badge)
+[![CI](https://github.com/theluckystrike/webext-badge/actions/workflows/ci.yml/badge.svg)](https://github.com/theluckystrike/webext-badge/actions)
+[![npm](https://img.shields.io/npm/v/@theluckystrike/webext-badge)](https://www.npmjs.com/package/@theluckystrike/webext-badge)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue.svg)](https://www.typescriptlang.org/)
 
@@ -6,12 +7,12 @@
 
 Typed badge text and color management for Chrome extensions.
 
-Part of the [chrome-extension-guide](https://github.com/niceByte/chrome-extension-guide) ecosystem.
+Part of the [chrome-extension-guide](https://github.com/theluckystrike/chrome-extension-guide) ecosystem.
 
 ## Install
 
 ```bash
-npm install webext-badge
+npm install @theluckystrike/webext-badge
 ```
 
 ## Usage
