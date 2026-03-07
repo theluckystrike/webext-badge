@@ -1,5 +1,5 @@
 {
-  "name": "webext-badge",
+  "name": "@theluckystrike/webext-badge",
   "version": "1.0.0",
   "description": "Typed badge text and color management for Chrome extensions",
   "main": "dist/index.js",
@@ -13,7 +13,8 @@
   "files": ["dist"],
   "scripts": {
     "build": "tsc",
-    "test": "vitest run"
+    "test": "vitest run",
+    "prepare": "npm run build"
   },
   "keywords": ["chrome-extension", "badge", "webextension", "typescript"],
   "author": "theluckystrike",
