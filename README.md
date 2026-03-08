@@ -3,9 +3,17 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue.svg)](https://www.typescriptlang.org/)
 
+<div align="center">
+
 # webext-badge
 
-Typed badge text and color management for Chrome extensions — counters, status indicators, and animations. Part of [@zovo/webext](https://github.com/theluckystrike/webext).
+**Typed badge text and color management for Chrome extensions — counters, status indicators, and animations.**
+
+[Install](#install) • [Quick Start](#quick-start) • [API](#api) • [Part of @zovo/webext](#-part-of-zovo-webext)
+
+*Part of the 🦄 @zovo/webext ecosystem*
+
+</div>
 
 ## Features
 
@@ -147,7 +155,9 @@ Use named colors or any hex/RGBA value:
 [255, 87, 34, 255]
 ```
 
-## Part of @zovo/webext
+---
+
+## 🦄 Part of @zovo/webext
 
 `webext-badge` is part of the @zovo/webext ecosystem of typed Chrome extension APIs:
 
