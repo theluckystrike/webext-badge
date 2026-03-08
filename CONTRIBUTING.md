@@ -4,38 +4,53 @@ Thank you for your interest in contributing to webext-badge!
 
 ## Getting Started
 
-1. **Fork the repository** — Click the "Fork" button on GitHub
-2. **Clone your fork** — `git clone https://github.com/YOUR_USERNAME/webext-badge.git`
-3. **Install dependencies** — `pnpm install` (or `npm install`)
-4. **Create a branch** — `git checkout -b my-feature`
+1. **Fork** the repository
+2. **Clone** your fork:
+   ```bash
+   git clone https://github.com/YOUR_USERNAME/webext-badge.git
+   cd webext-badge
+   ```
+
+3. **Install dependencies**:
+   ```bash
+   pnpm install
+   ```
+
+4. **Create a feature branch**:
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
 
 ## Development
 
-```bash
-# Install dependencies
-pnpm install
+- **Build** the project:
+  ```bash
+  pnpm run build
+  ```
 
-# Run tests
-pnpm test
+- **Run tests**:
+  ```bash
+  pnpm test
+  ```
 
-# Build the project
-pnpm build
-```
+- **Watch mode** (during development):
+  ```bash
+  pnpm test --watch
+  ```
 
-## Making Changes
+## Pull Request Process
 
-1. Make your changes in your feature branch
-2. Ensure tests pass: `pnpm test`
-3. Commit your changes with a descriptive message
-4. Push to your fork
-5. Open a Pull Request against the `main` branch
+1. Ensure all tests pass and the build succeeds
+2. Update documentation if needed
+3. Commit your changes with clear, descriptive messages
+4. Push to your fork and submit a Pull Request to the `main` branch
+5. Ensure your PR description clearly describes the problem and solution
 
-## Pull Request Guidelines
+## Code Style
 
-- Describe what your PR changes and why
-- Ensure all tests pass
-- Update documentation if needed
-- Be responsive to feedback
+- Use TypeScript
+- Follow existing code patterns
+- Add tests for new functionality
 
 ## License
 
