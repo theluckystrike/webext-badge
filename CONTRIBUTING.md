@@ -11,53 +11,52 @@ Thank you for your interest in contributing to webext-badge!
    cd webext-badge
    ```
 
-3. **Install dependencies**:
-   ```bash
-   npm install
-   # or
-   pnpm install
-   ```
-
-4. **Create a feature branch**:
-   ```bash
-   git checkout -b my-feature
-   ```
-
-## Development
-
-### Running Tests
+## Development Setup
 
 ```bash
-npm test
+# Install dependencies
+pnpm install
+
+# Build the project
+pnpm build
+
+# Run tests
+pnpm test
 ```
 
-### Building
+## Creating a Branch
+
+Create a new branch for your feature or fix:
 
 ```bash
-npm run build
+git checkout -b feature/your-feature-name
+# or
+git checkout -b fix/your-fix-name
 ```
 
-### Code Style
+## Making Changes
 
-This project uses standard TypeScript conventions. Run `npm run build` before submitting to ensure type checking passes.
+1. Make your changes in the `src/` directory
+2. Run `pnpm build` to compile TypeScript
+3. Run `pnpm test` to ensure all tests pass
+4. Commit your changes with a clear message
 
-## Pull Request Process
+## Submitting a Pull Request
 
-1. Update documentation if your changes affect the API
-2. Add tests for new functionality
-3. Ensure `npm test` and `npm run build` pass
-4. Update the CHANGELOG.md with your changes
-5. Submit a pull request to the `main` branch
+1. Push your branch to your fork:
+   ```bash
+   git push origin your-branch-name
+   ```
+2. Open a Pull Request against the `main` branch
+3. Fill out the PR template with details about your changes
 
-## Commit Messages
+## Code Style
 
-Follow conventional commit format:
-- `feat:` for new features
-- `fix:` for bug fixes
-- `docs:` for documentation changes
-- `test:` for test updates
-- `refactor:` for code refactoring
+- Use TypeScript for all new code
+- Follow the existing code style
+- Add type annotations where beneficial
+- Write tests for new functionality
 
-## License
+## Questions?
 
-By contributing, you agree that your contributions will be licensed under the MIT License.
+If you have questions, feel free to open an issue or reach out through the repository.
