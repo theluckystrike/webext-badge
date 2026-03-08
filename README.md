@@ -1,85 +1,103 @@
-[![CI](https://github.com/theluckystrike/webext-badge/actions/workflows/ci.yml/badge.svg)](https://github.com/theluckystrike/webext-badge/actions)
-[![npm](https://img.shields.io/npm/v/@theluckystrike/webext-badge)](https://www.npmjs.com/package/@theluckystrike/webext-badge)
+<div align="center">
+
+# @theluckystrike/webext-badge
+
+Typed badge text and color management for Chrome extensions. Set badge text, background color, and text color with a clean API.
+
+[![npm version](https://img.shields.io/npm/v/@theluckystrike/webext-badge)](https://www.npmjs.com/package/@theluckystrike/webext-badge)
+[![npm downloads](https://img.shields.io/npm/dm/@theluckystrike/webext-badge)](https://www.npmjs.com/package/@theluckystrike/webext-badge)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue.svg)](https://www.typescriptlang.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue.svg)](https://www.typescriptlang.org/)
+![npm bundle size](https://img.shields.io/bundlephobia/minzip/@theluckystrike/webext-badge)
 
-# webext-badge
+[Installation](#installation) · [Quick Start](#quick-start) · [API](#api) · [License](#license)
 
-Typed badge text and color management for Chrome extensions.
+</div>
 
-Part of the [chrome-extension-guide](https://github.com/theluckystrike/chrome-extension-guide) ecosystem.
+---
 
-## Install
+## Features
+
+- **Badge text** -- set and get badge text per tab or globally
+- **Badge colors** -- background and text color management
+- **Typed** -- full TypeScript support for all badge operations
+- **Promise-based** -- async/await for all Chrome badge APIs
+- **Per-tab badges** -- set different badges for different tabs
+- **Zero dependencies** -- just TypeScript and Chrome APIs
+
+## Installation
 
 ```bash
 npm install @theluckystrike/webext-badge
 ```
 
-## Usage
+<details>
+<summary>Other package managers</summary>
+
+```bash
+pnpm add @theluckystrike/webext-badge
+# or
+yarn add @theluckystrike/webext-badge
+```
+
+</details>
+
+## Quick Start
 
 ```typescript
-import { setBadge, clearBadge, showCount, showStatus, flashBadge, COLORS } from "webext-badge";
+import { Badge } from "@theluckystrike/webext-badge";
 
-// Set badge with text and color
-await setBadge("New", "blue");
-
-// Show a count (auto-formats, shows 999+ for large values)
-await showCount(42);
-
-// Show status indicators
-await showStatus("success");        // Green "OK"
-await showStatus("error");          // Red "ERR"
-await showStatus("warning");        // Orange "!"
-await showStatus("info", "3");      // Blue "3"
-
-// Flash a badge temporarily (clears after duration)
-await flashBadge("!", "orange", 3000);
-
-// Clear the badge
-await clearBadge();
+await Badge.setText("42");
+await Badge.setBackgroundColor("#FF0000");
+await Badge.setTextColor("#FFFFFF");
 
 // Per-tab badges
-await setBadge("5", "red", tabId);
+await Badge.setText("NEW", { tabId: 123 });
 ```
 
 ## API
 
-### Core Functions
+| Method | Description |
+|--------|-------------|
+| `setText(text, opts?)` | Set badge text (optionally per tab) |
+| `getText(opts?)` | Get current badge text |
+| `setBackgroundColor(color, opts?)` | Set badge background color |
+| `getBackgroundColor(opts?)` | Get badge background color |
+| `setTextColor(color, opts?)` | Set badge text color |
+| `getTextColor(opts?)` | Get badge text color |
 
-| Function | Description |
-|----------|-------------|
-| `setBadgeText(text, tabId?)` | Set badge text |
-| `getBadgeText(tabId?)` | Get current badge text |
-| `setBadgeColor(color, tabId?)` | Set background color |
-| `getBadgeColor(tabId?)` | Get background color |
-| `setBadgeTextColor(color, tabId?)` | Set text color |
-| `setBadge(text, color, tabId?)` | Set text and color together |
-| `clearBadge(tabId?)` | Clear badge text |
 
-### Helper Functions
 
-| Function | Description |
-|----------|-------------|
-| `showCount(count, tabId?)` | Display count (0 clears, >999 shows "999+") |
-| `showStatus(status, text?, tabId?)` | Show colored status badge |
-| `flashBadge(text, color, durationMs?, tabId?)` | Temporarily show badge |
+## Part of @zovo/webext
 
-### Colors
+This package is part of the [@zovo/webext](https://github.com/theluckystrike) family -- typed, modular utilities for Chrome extension development:
 
-Use named colors or any hex/RGBA value:
+| Package | Description |
+|---------|-------------|
+| [webext-storage](https://github.com/theluckystrike/webext-storage) | Typed storage with schema validation |
+| [webext-messaging](https://github.com/theluckystrike/webext-messaging) | Type-safe message passing |
+| [webext-tabs](https://github.com/theluckystrike/webext-tabs) | Tab query helpers |
+| [webext-cookies](https://github.com/theluckystrike/webext-cookies) | Promise-based cookies API |
+| [webext-i18n](https://github.com/theluckystrike/webext-i18n) | Internationalization toolkit |
 
-```typescript
-"red" | "green" | "blue" | "orange" | "purple" | "gray" | "black" | "white"
-// or
-"#FF5722"
-// or
-[255, 87, 34, 255]
-```
+## Contributing
+
+Contributions are welcome! Please open an issue or submit a pull request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ## License
 
-MIT
+MIT License -- see [LICENSE](LICENSE) for details.
 
 ---
 
-Built by [theluckystrike](https://github.com/theluckystrike) — [zovo.one](https://zovo.one)
+<div align="center">
+
+Built by [theluckystrike](https://github.com/theluckystrike) · [zovo.one](https://zovo.one)
+
+</div>

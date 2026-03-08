@@ -1,7 +1,7 @@
 {
   "name": "@theluckystrike/webext-badge",
   "version": "1.0.0",
-  "description": "Typed badge text and color management for Chrome extensions",
+  "description": "Typed badge text and color management for Chrome extensions. Part of @zovo/webext.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
@@ -23,8 +23,13 @@
   "keywords": [
     "chrome-extension",
     "badge",
+    "action-badge",
+    "typescript",
     "webextension",
-    "typescript"
+    "browser-extension",
+    "manifest-v3",
+    "browser-action",
+    "icon-badge"
   ],
   "author": "theluckystrike",
   "license": "MIT",
