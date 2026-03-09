@@ -1,62 +1,59 @@
 # Contributing to webext-badge
 
-Thank you for your interest in contributing to webext-badge!
+Thank you for your interest in contributing to webext-badge! This document outlines the process for contributing to this project.
 
 ## Getting Started
 
-1. **Fork** the repository
-2. **Clone** your fork:
-   ```bash
-   git clone https://github.com/YOUR_USERNAME/webext-badge.git
-   cd webext-badge
-   ```
+1. **Fork the repository** — Click the "Fork" button on GitHub to create your own copy
+2. **Clone your fork** — `git clone https://github.com/YOUR_USERNAME/webext-badge.git`
+3. **Install dependencies** — `pnpm install` (or `npm install` / `yarn`)
 
-## Development Setup
+## Development Workflow
 
-```bash
-# Install dependencies
-pnpm install
+1. **Create a feature branch** — `git checkout -b feature/your-feature-name`
+2. **Make your changes** — Write your code, add tests
+3. **Run tests** — `pnpm test` to ensure everything passes
+4. **Build the project** — `pnpm build` to compile TypeScript
+5. **Commit your changes** — Use clear, descriptive commit messages
+6. **Push to your fork** — `git push origin feature/your-feature-name`
+7. **Open a Pull Request** — Describe your changes and submit
 
-# Build the project
-pnpm build
+## Testing
 
-# Run tests
-pnpm test
-```
-
-## Creating a Branch
-
-Create a new branch for your feature or fix:
+Run the test suite:
 
 ```bash
-git checkout -b feature/your-feature-name
-# or
-git checkout -b fix/your-fix-name
+pnpm test        # Run tests once
+pnpm test:watch  # Run tests in watch mode
 ```
-
-## Making Changes
-
-1. Make your changes in the `src/` directory
-2. Run `pnpm build` to compile TypeScript
-3. Run `pnpm test` to ensure all tests pass
-4. Commit your changes with a clear message
-
-## Submitting a Pull Request
-
-1. Push your branch to your fork:
-   ```bash
-   git push origin your-branch-name
-   ```
-2. Open a Pull Request against the `main` branch
-3. Fill out the PR template with details about your changes
 
 ## Code Style
 
-- Use TypeScript for all new code
-- Follow the existing code style
-- Add type annotations where beneficial
-- Write tests for new functionality
+- Use TypeScript with strict mode
+- Follow existing code conventions
+- Add JSDoc comments for public APIs
+- Ensure type safety throughout
+
+## Pull Request Guidelines
+
+- PRs should target the `main` branch
+- Include a clear description of the changes
+- Add tests for new functionality
+- Ensure all tests pass before submitting
+- Update documentation if needed
+
+## Commit Messages
+
+Use clear, descriptive commit messages:
+
+- `feat: add showCount helper function`
+- `fix: resolve type error in setBadgeColor`
+- `docs: update API reference`
 
 ## Questions?
 
-If you have questions, feel free to open an issue or reach out through the repository.
+If you have questions, feel free to open an issue or reach out through GitHub.
+
+## License
+
+By contributing, you agree that your contributions will be licensed under the MIT License.

@@ -2,24 +2,26 @@
 [![npm](https://img.shields.io/npm/v/@theluckystrike/webext-badge)](https://www.npmjs.com/package/@theluckystrike/webext-badge)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue.svg)](https://www.typescriptlang.org/)
+[![npm downloads](https://img.shields.io/npm/dm/@theluckystrike/webext-badge)](https://www.npmjs.com/package/@theluckystrike/webext-badge)
 
 # webext-badge
 
-> Typed badge text and color management for Chrome extensions — counters, status indicators, and animations.
+> Typed badge text and color management for Chrome extensions — counters, status indicators, and animations. Part of @zovo/webext.
 
-Part of **@zovo/webext** — a collection of type-safe utilities for building Chrome extensions.
+A lightweight, type-safe library for managing browser extension badges in Chrome, Edge, Firefox, and other Chromium-based browsers. Perfect for notification counters, status indicators, and temporary alerts.
 
 ## Features
 
-- **Set badge text** — Display any text on the extension icon
-- **Color management** — Use named colors (red, green, blue, etc.) or custom hex/RGBA values
+- **Set badge text** — Display any text on the extension badge
+- **Custom colors** — Use named colors, hex values, or RGBA arrays
 - **Background & text colors** — Full control over badge appearance
-- **Clear badges** — Remove badges with a single call
-- **Pulse animations** — Flash badges temporarily with configurable duration
-- **Per-tab badges** — Show different badges for different tabs
-- **Templates** — Built-in helpers for common patterns:
-  - Notification counters (with "999+" overflow)
-  - Status indicators (success, error, warning, info)
+- **Clear badges** — Remove badges easily
+- **Pulse/flash animations** — Temporarily show badges that auto-clear
+- **Per-tab badges** — Different badges for different tabs
+- **Templates** — Pre-built patterns for common use cases:
+  - Notification counters (auto-formats "999+")
+  - Status indicators (success/error/warning/info)
+  - Temporary alerts (auto-dismiss)
 
 ## Install
 
@@ -27,6 +29,8 @@ Part of **@zovo/webext** — a collection of type-safe utilities for building Ch
 npm install @theluckystrike/webext-badge
 # or
 pnpm add @theluckystrike/webext-badge
+# or
+yarn add @theluckystrike/webext-badge
 ```
 
 ## Quick Start
@@ -46,7 +50,7 @@ await showStatus("error");          // Red "ERR"
 await showStatus("warning");        // Orange "!"
 await showStatus("info", "3");      // Blue "3"
 
-// Flash a badge temporarily (clears after 3 seconds by default)
+// Flash a badge temporarily (auto-clears after 3 seconds)
 await flashBadge("!", "orange", 3000);
 
 // Clear the badge
@@ -66,106 +70,142 @@ Display unread counts with automatic overflow handling:
 import { showCount } from "@theluckystrike/webext-badge";
 
 // In your message handler
-chrome.runtime.onMessage.addListener((message) => {
+browser.runtime.onMessage.addListener((message) => {
   if (message.type === "UNREAD_COUNT") {
-    showCount(message.count);
+    await showCount(message.count);
   }
 });
+
+// Handles all these cases:
+// showCount(0)     → clears badge
+// showCount(5)    → shows "5"
+// showCount(100)  → shows "100"
+// showCount(1500) → shows "999+"
 ```
 
 ### Status Indicators
 
-Show real-time status updates on your extension icon:
+Show quick visual feedback for operations:
 
 ```typescript
 import { showStatus } from "@theluckystrike/webext-badge";
 
-// Sync status
-await showStatus("success");
-await showStatus("error");
-await showStatus("warning", "!");
-await showStatus("info", "3");
+async function handleSync() {
+  try {
+    await syncData();
+    await showStatus("success");      // Green "OK"
+    
+    // Auto-clear after 2 seconds
+    setTimeout(() => clearBadge(), 2000);
+  } catch (error) {
+    await showStatus("error");        // Red "ERR"
+  }
+}
 ```
 
-### Animated Pulse
+### Animated Pulse Effect
 
-Draw attention with temporary flash animations:
+Create attention-grabbing temporary badges:
 
 ```typescript
-import { flashBadge } from "@theluckystrike/webext-badge";
+import { flashBadge, COLORS } from "@theluckystrike/webext-badge";
 
-// Flash on new notification
-await flashBadge("1", "red", 2000);
+// Flash an important alert for 5 seconds
+await flashBadge("!", COLORS.orange, 5000);
 
-// Longer pulse for important alerts
-await flashBadge("!", "orange", 5000);
+// Pulse animation sequence
+async function pulseWithAnimation(count: number = 3) {
+  for (let i = 0; i < count; i++) {
+    await flashBadge("●", COLORS.blue, 500);
+    await new Promise(r => setTimeout(r, 200));
+  }
+}
 ```
 
-### Per-Tab Badge Management
+### Per-Tab Badges
 
-Manage badges individually per tab:
+Show different badges for different browser tabs:
 
 ```typescript
-import { setBadge, clearBadge, getBadgeText } from "@theluckystrike/webext-badge";
+import { setBadge, getBadgeText } from "@theluckystrike/webext-badge";
 
-// Set different badges per tab
-await setBadge("5", "red", tabId1);
-await setBadge("3", "blue", tabId2);
-
-// Check current badge state
-const text = await getBadgeText(tabId1);
-
-// Clear specific tab
-await clearBadge(tabId2);
+// Get all tabs and set per-tab badges
+const tabs = await browser.tabs.query({});
+for (const tab of tabs) {
+  if (tab.id && tab.url?.includes("inbox")) {
+    await setBadge("5", "green", tab.id);
+  }
+}
 ```
 
 ## API Reference
 
 ### Core Functions
 
-| Function | Description |
-|----------|-------------|
-| `setBadgeText(text, tabId?)` | Set badge text |
-| `getBadgeText(tabId?)` | Get current badge text |
-| `setBadgeColor(color, tabId?)` | Set background color |
-| `getBadgeColor(tabId?)` | Get background color |
-| `setBadgeTextColor(color, tabId?)` | Set text color |
-| `setBadge(text, color, tabId?)` | Set text and color together |
-| `clearBadge(tabId?)` | Clear badge text |
+| Function | Description | Returns |
+|----------|-------------|---------|
+| `setBadgeText(text, tabId?)` | Set badge text content | `Promise<void>` |
+| `getBadgeText(tabId?)` | Get current badge text | `Promise<string>` |
+| `setBadgeColor(color, tabId?)` | Set badge background color | `Promise<void>` |
+| `getBadgeColor(tabId?)` | Get current background color | `Promise<BadgeColor>` |
+| `setBadgeTextColor(color, tabId?)` | Set badge text color | `Promise<void>` |
+| `setBadge(text, color, tabId?)` | Set text and color together | `Promise<void>` |
+| `clearBadge(tabId?)` | Clear badge (set to empty) | `Promise<void>` |
 
 ### Helper Functions
 
-| Function | Description |
-|----------|-------------|
-| `showCount(count, tabId?)` | Display count (0 clears, >999 shows "999+") |
-| `showStatus(status, text?, tabId?)` | Show colored status badge |
-| `flashBadge(text, color, durationMs?, tabId?)` | Temporarily show badge |
+| Function | Description | Returns |
+|----------|-------------|---------|
+| `showCount(count, tabId?)` | Display count (0 clears, >999 shows "999+") | `Promise<void>` |
+| `showStatus(status, text?, tabId?)` | Show colored status badge | `Promise<void>` |
+| `flashBadge(text, color, durationMs?, tabId?)` | Temporarily show badge | `Promise<void>` |
 
-### Colors
+### Color Values
 
-Use named colors or any hex/RGBA value:
+Use named colors, hex values, or RGBA arrays:
 
 ```typescript
 // Named colors
 "red" | "green" | "blue" | "orange" | "purple" | "gray" | "black" | "white"
 
-// Hex values
-"#FF5722"
+// Hex colors
+"#FF5722" | "#4CAF50" | "#2196F3"
 
-// RGBA array
-[255, 87, 34, 255]
+// RGBA arrays
+[255, 87, 34, 255]  // RGBA
+```
+
+### Types
+
+```typescript
+type BadgeColor = string | [number, number, number, number];
+
+type ColorName = "red" | "green" | "blue" | "orange" | "purple" | "gray" | "black" | "white";
+
+interface BadgeState {
+  text: string;
+  backgroundColor: BadgeColor;
+  textColor?: BadgeColor;
+}
 ```
 
 ## Part of @zovo/webext
 
-`webext-badge` is part of the **@zovo/webext** ecosystem — type-safe utilities for Chrome extension development:
+webext-badge is part of the @zovo/webext ecosystem — a collection of type-safe utilities for building modern browser extensions.
 
-- **@zovo/webext-badge** — Badge text and color management
-- **@zovo/webext-storage** — Typed storage utilities
-- **@zovo/webext-messaging** — Type-safe message passing
-- **@zovo/webext-tabs** — Tab management helpers
+Other packages in the ecosystem:
 
-Visit [zovo.one](https://zovo.one) for the full ecosystem.
+- **webext-storage** — Typed wrapper for browser.storage
+- **webext-messaging** — Type-safe message passing
+- **webext-tabs** — Tab management utilities
+
+Learn more at [zovo.one](https://zovo.one)
+
+## Requirements
+
+- TypeScript 5.0+
+- Chrome/Edge 88+ or Firefox 87+
+- Chrome Extensions Manifest V3
 
 ## License
 
@@ -173,4 +213,4 @@ MIT
 
 ---
 
-Built by [theluckystrike](https://github.com/theluckystrike) — [zovo.one](https://zovo.one)
+Built with 🔧 by [theluckystrike](https://github.com/theluckystrike) — [zovo.one](https://zovo.one)
