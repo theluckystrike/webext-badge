@@ -2,61 +2,55 @@
 
 Thank you for your interest in contributing to webext-badge!
 
-## Development Setup
+## Getting Started
 
-1. **Fork the repository**
-
-2. **Clone your fork**
+1. **Fork** the repository
+2. **Clone** your fork:
    ```bash
    git clone https://github.com/YOUR_USERNAME/webext-badge.git
    cd webext-badge
    ```
 
-3. **Install dependencies**
+3. **Install dependencies**:
    ```bash
    pnpm install
    ```
 
-4. **Create a feature branch**
+4. **Create a feature branch**:
    ```bash
    git checkout -b feature/your-feature-name
    ```
 
-## Development Workflow
+## Development
 
-1. **Make your changes** — Add features or fix bugs
+- **Build** the project:
+  ```bash
+  pnpm run build
+  ```
 
-2. **Run tests**
-   ```bash
-   pnpm test
-   ```
+- **Run tests**:
+  ```bash
+  pnpm test
+  ```
 
-3. **Build the project**
-   ```bash
-   pnpm build
-   ```
+- **Watch mode** (during development):
+  ```bash
+  pnpm test --watch
+  ```
 
-4. **Commit your changes**
-   ```bash
-   git add .
-   git commit -m "Add your descriptive commit message"
-   ```
+## Pull Request Process
 
-5. **Push to your fork**
-   ```bash
-   git push origin feature/your-feature-name
-   ```
-
-6. **Open a Pull Request**
-
-   Go to the [original repository](https://github.com/theluckystrike/webext-badge) and create a pull request from your branch.
+1. Ensure all tests pass and the build succeeds
+2. Update documentation if needed
+3. Commit your changes with clear, descriptive messages
+4. Push to your fork and submit a Pull Request to the `main` branch
+5. Ensure your PR description clearly describes the problem and solution
 
 ## Code Style
 
-- Use TypeScript for all new code
-- Follow existing code conventions
-- Add types for new functions
-- Write tests for new features
+- Use TypeScript
+- Follow existing code patterns
+- Add tests for new functionality
 
 ## License
 
