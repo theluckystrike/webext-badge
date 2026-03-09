@@ -1,58 +1,62 @@
 # Contributing to webext-badge
 
-Thank you for your interest in contributing to webext-badge! This document outlines the process for contributing to this project.
+Thank you for your interest in contributing to webext-badge!
 
-## Getting Started
+## Development Setup
 
-1. **Fork the repository** — Click the "Fork" button on GitHub to create your own copy
-2. **Clone your fork** — `git clone https://github.com/YOUR_USERNAME/webext-badge.git`
-3. **Install dependencies** — `pnpm install` (or `npm install` / `yarn`)
+1. **Fork the repository**
+
+2. **Clone your fork**
+   ```bash
+   git clone https://github.com/YOUR_USERNAME/webext-badge.git
+   cd webext-badge
+   ```
+
+3. **Install dependencies**
+   ```bash
+   pnpm install
+   ```
+
+4. **Create a feature branch**
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
 
 ## Development Workflow
 
-1. **Create a feature branch** — `git checkout -b feature/your-feature-name`
-2. **Make your changes** — Write your code, add tests
-3. **Run tests** — `pnpm test` to ensure everything passes
-4. **Build the project** — `pnpm build` to compile TypeScript
-5. **Commit your changes** — Use clear, descriptive commit messages
-6. **Push to your fork** — `git push origin feature/your-feature-name`
-7. **Open a Pull Request** — Describe your changes and submit
+1. **Make your changes** — Add features or fix bugs
 
-## Testing
+2. **Run tests**
+   ```bash
+   pnpm test
+   ```
 
-Run the test suite:
+3. **Build the project**
+   ```bash
+   pnpm build
+   ```
 
-```bash
-pnpm test        # Run tests once
-pnpm test:watch  # Run tests in watch mode
-```
+4. **Commit your changes**
+   ```bash
+   git add .
+   git commit -m "Add your descriptive commit message"
+   ```
+
+5. **Push to your fork**
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+
+6. **Open a Pull Request**
+
+   Go to the [original repository](https://github.com/theluckystrike/webext-badge) and create a pull request from your branch.
 
 ## Code Style
 
-- Use TypeScript with strict mode
+- Use TypeScript for all new code
 - Follow existing code conventions
-- Add JSDoc comments for public APIs
-- Ensure type safety throughout
-
-## Pull Request Guidelines
-
-- PRs should target the `main` branch
-- Include a clear description of the changes
-- Add tests for new functionality
-- Ensure all tests pass before submitting
-- Update documentation if needed
-
-## Commit Messages
-
-Use clear, descriptive commit messages:
-
-- `feat: add showCount helper function`
-- `fix: resolve type error in setBadgeColor`
-- `docs: update API reference`
-
-## Questions?
-
-If you have questions, feel free to open an issue or reach out through GitHub.
+- Add types for new functions
+- Write tests for new features
 
 ## License
 

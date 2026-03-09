@@ -4,37 +4,12 @@
   "description": "Typed badge text and color management for Chrome extensions — counters, status indicators, and animations. Part of @zovo/webext.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "type": "module",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.js"
+      "default": "./dist/index.js"
     }
   },
-  "files": [
-    "dist",
-    "README.md",
-    "LICENSE"
-  ],
-  "scripts": {
-    "build": "tsc",
-    "test": "vitest run",
-    "prepare": "npm run build"
-  },
-  "keywords": [
-    "chrome-extension",
-    "webextension",
-    "badge",
-    "browser-extension",
-    "chrome",
-    "notifications",
-    "typescript",
-    "zovo",
-    "webext"
-  ],
-  "author": "theluckystrike",
-  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/theluckystrike/webext-badge.git"
@@ -46,7 +21,27 @@
   "engines": {
     "node": ">=18.0.0"
   },
+  "packageManager": "pnpm@9.0.0",
   "sideEffects": false,
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "prepare": "pnpm run build"
+  },
+  "keywords": [
+    "chrome-extension",
+    "badge",
+    "webextension",
+    "typescript",
+    "@zovo/webext"
+  ],
+  "author": "theluckystrike",
+  "license": "MIT",
   "devDependencies": {
     "@types/chrome": "^0.0.287",
     "typescript": "^5.7.0",
