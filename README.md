@@ -1,159 +1,184 @@
-[![CI](https://github.com/theluckystrike/webext-badge/actions/workflows/ci.yml/badge.svg)](https://github.com/theluckystrike/webext-badge/actions)
-[![npm](https://img.shields.io/npm/v/@theluckystrike/webext-badge)](https://www.npmjs.com/package/@theluckystrike/webext-badge)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue.svg)](https://www.typescriptlang.org/)
-
 # webext-badge
 
-> Typed badge text and color management for Chrome extensions — counters, status indicators, and animations. Part of @zovo/webext.
+[![npm version](https://img.shields.io/npm/v/webext-badge.svg)](https://www.npmjs.com/package/webext-badge)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue.svg)](https://www.typescriptlang.org/)
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+
+Typed badge text and color management for Chrome extensions.
+
+Part of the [Zovo](https://github.com/theluckystrike) ecosystem for building modern Chrome extensions.
 
 ## Features
 
-- **Set Badge Text** — Display any text on the extension icon
-- **Custom Colors** — Use named colors, hex values, or RGBA arrays
-- **Background & Text Color** — Full control over badge appearance
-- **Clear Badge** — Remove badge with a single call
-- **Pulse Animation** — Flash badges temporarily to grab attention
-- **Per-Tab Badges** — Different badges for different browser tabs
-- **Preset Templates** — Ready-to-use counters and status indicators
+- **Set badge text** — Display any text on the extension badge
+- **Set background color** — Customize badge background with named colors or hex/RGBA values
+- **Set text color** — Control badge text color for accessibility and visibility
+- **Clear badge** — Remove badge text with a single function call
+- **Pulse animation** — Temporarily show a badge that auto-clears after a duration
+- **Per-tab badges** — Display different badges for different browser tabs
+- **Badge templates** — Pre-built patterns for common use cases:
+  - **Notification counter** — Auto-formats large counts as "999+", clears at zero
+  - **Status indicators** — Pre-configured success (green), error (red), warning (orange), and info (blue) badges
 
 ## Install
 
 ```bash
-npm install @theluckystrike/webext-badge
-# or
-pnpm add @theluckystrike/webext-badge
+npm install webext-badge
 ```
+
+Requires TypeScript 5.7+ and Chrome 110+ (or equivalent Chromium-based browser).
 
 ## Quick Start
 
-```typescript
-import { setBadge, clearBadge, showCount, showStatus, flashBadge, COLORS } from "@theluckystrike/webext-badge";
+### Set badge text and color
 
-// Set badge with text and color
+```typescript
+import { setBadge, clearBadge } from "webext-badge";
+
+// Set badge with text and background color
 await setBadge("New", "blue");
 
-// Show a count (auto-formats, shows 999+ for large values)
-await showCount(42);
-
-// Show status indicators
-await showStatus("success");        // Green "OK"
-await showStatus("error");          // Red "ERR"
-await showStatus("warning");        // Orange "!"
-await showStatus("info", "3");      // Blue "3"
-
-// Flash a badge temporarily (clears after 3 seconds by default)
-await flashBadge("!", "orange", 3000);
-
-// Clear the badge
+// Clear the badge when done
 await clearBadge();
+```
 
-// Per-tab badges
+### Using individual functions
+
+```typescript
+import { setBadgeText, setBadgeColor, setBadgeTextColor } from "webext-badge";
+
+// Set just the text
+await setBadgeText("5");
+
+// Set just the background color
+await setBadgeColor("red");
+
+// Set text color (for light backgrounds)
+await setBadgeTextColor("white");
+```
+
+### Per-tab badges
+
+```typescript
+import { setBadge } from "webext-badge";
+
+// Show a badge on a specific tab
 await setBadge("5", "red", tabId);
+
+// Clear badge on a specific tab
+import { clearBadge } from "webext-badge";
+await clearBadge(tabId);
 ```
 
 ## Advanced Patterns
 
-### Notification Counter
+### Notification counter with auto-clear
 
-Display unread counts with automatic overflow handling:
-
-```typescript
-import { showCount } from "@theluckystrike/webext-badge";
-
-// Updates badge with unread message count
-async function updateUnreadBadge(count: number) {
-  await showCount(count);
-}
-
-// Examples:
-// showCount(0)     → clears badge
-// showCount(5)     → shows "5"
-// showCount(1000)  → shows "999+"
-```
-
-### Status Indicators
-
-Quick visual feedback for different states:
+Display unread counts that automatically clear when the count reaches zero:
 
 ```typescript
-import { showStatus } from "@theluckystrike/webext-badge";
+import { showCount } from "webext-badge";
 
-// Connection status
-await showStatus("success");  // Green "OK"
-await showStatus("error");    // Red "ERR"
-
-// Warnings with custom text
-await showStatus("warning", "!");   // Orange "!"
-await showStatus("warning", "3");   // Orange "3"
-
-// Info badges
-await showStatus("info");     // Blue "i"
-await showStatus("info", "2"); // Blue "2"
+// Show notification count
+await showCount(42);    // Shows "42"
+await showCount(1500);  // Shows "999+"
+await showCount(0);     // Clears the badge
 ```
 
-### Animated Pulse
+### Status indicators
 
-Create attention-grabbing animations:
+Use pre-configured status badges for common states:
 
 ```typescript
-import { flashBadge } from "@theluckystrike/webext-badge";
+import { showStatus } from "webext-badge";
 
-// Flash badge for 2 seconds
-await flashBadge("!", "orange", 2000);
+// Success - Green badge with "OK"
+await showStatus("success");
 
-// Pulse animation with async/await
-async function pulseAnimation(text: string, color: string, pulses: number = 3) {
-  for (let i = 0; i < pulses; i++) {
-    await flashBadge(text, color, 500);
-    await new Promise(r => setTimeout(r, 200));
-  }
-}
+// Error - Red badge with "ERR"
+await showStatus("error");
 
-// Usage
-await pulseAnimation("NEW", "green", 3);
+// Warning - Orange badge with "!"
+await showStatus("warning");
+
+// Info - Blue badge with "i" or custom text
+await showStatus("info");
+await showStatus("info", "3");  // Blue badge with "3"
 ```
 
-## API
+### Animated pulse
+
+Flash a badge temporarily to draw user attention:
+
+```typescript
+import { flashBadge } from "webext-badge";
+
+// Flash badge for 3 seconds (default)
+await flashBadge("!", "orange");
+
+// Flash with custom duration (5 seconds)
+await flashBadge("New", "blue", 5000);
+
+// Flash on a specific tab
+await flashBadge("!", "red", 3000, tabId);
+```
+
+### Custom colors
+
+Pass any valid color value:
+
+```typescript
+import { setBadgeColor, COLORS } from "webext-badge";
+
+// Use built-in named colors
+await setBadgeColor("green");
+await setBadgeColor("purple");
+
+// Use hex colors
+await setBadgeColor("#FF5722");
+await setBadgeColor("#2196F3");
+
+// Use RGBA array [red, green, blue, alpha]
+await setBadgeColor([255, 87, 34, 255]);
+
+// Access COLORS constant directly
+await setBadgeColor(COLORS.red);
+```
+
+## API Reference
 
 ### Core Functions
 
 | Function | Description |
 |----------|-------------|
-| `setBadgeText(text, tabId?)` | Set badge text |
+| `setBadgeText(text, tabId?)` | Set badge text content |
 | `getBadgeText(tabId?)` | Get current badge text |
-| `setBadgeColor(color, tabId?)` | Set background color |
-| `getBadgeColor(tabId?)` | Get background color |
-| `setBadgeTextColor(color, tabId?)` | Set text color |
-| `setBadge(text, color, tabId?)` | Set text and color together |
-| `clearBadge(tabId?)` | Clear badge text |
+| `setBadgeColor(color, tabId?)` | Set badge background color |
+| `getBadgeColor(tabId?)` | Get badge background color |
+| `setBadgeTextColor(color, tabId?)` | Set badge text color |
+| `setBadge(text, color, tabId?)` | Set text and background color together |
+| `clearBadge(tabId?)` | Clear badge text (set to empty string) |
 
 ### Helper Functions
 
 | Function | Description |
 |----------|-------------|
-| `showCount(count, tabId?)` | Display count (0 clears, >999 shows "999+") |
-| `showStatus(status, text?, tabId?)` | Show colored status badge |
-| `flashBadge(text, color, durationMs?, tabId?)` | Temporarily show badge |
+| `showCount(count, tabId?)` | Display count with auto-formatting (0 clears, 999+ truncates) |
+| `showStatus(status, text?, tabId?)` | Show colored status badge (success/error/warning/info) |
+| `flashBadge(text, color, durationMs?, tabId?)` | Temporarily show badge that auto-clears |
 
-### Colors
+### Types and Constants
 
-Use named colors or any hex/RGBA value:
+| Export | Type | Description |
+|--------|------|-------------|
+| `COLORS` | `object` | Pre-defined color palette |
+| `BadgeColor` | `string \| [number, number, number, number]` | Valid color value (named, hex, or RGBA) |
+| `ColorName` | `"red" \| "green" \| "blue" \| "orange" \| "purple" \| "gray" \| "black" \| "white"` | Named color keys |
+| `BadgeState` | `interface` | Object with text, backgroundColor, and optional textColor |
 
-```typescript
-// Named colors
-"red" | "green" | "blue" | "orange" | "purple" | "gray" | "black" | "white"
+### Color Values
 
-// Hex values
-"#FF5722"
-
-// RGBA array
-[255, 87, 34, 255]
-```
-
-### Color Constants
-
-Pre-defined colors available via `COLORS` object:
+The `COLORS` constant provides named colors:
 
 ```typescript
 COLORS.red     // "#F44336"
@@ -166,30 +191,33 @@ COLORS.black   // "#000000"
 COLORS.white   // "#FFFFFF"
 ```
 
-### Types
+Accepts any valid CSS color:
+- Named colors: `"red"`, `"green"`, `"blue"`, etc.
+- Hex values: `"#FF5722"`, `"#FFF"`
+- RGBA arrays: `[255, 87, 34, 255]`
 
-```typescript
-type BadgeColor = string | [number, number, number, number];
-type ColorName = "red" | "green" | "blue" | "orange" | "purple" | "gray" | "black" | "white";
+## Permissions
 
-interface BadgeState {
-  text: string;
-  backgroundColor: BadgeColor;
-  textColor?: BadgeColor;
+**No special permissions required.**
+
+This library uses the Chrome `chrome.action` badge API, which does not require any additional permissions in your `manifest.json`. The badge appears on the extension's toolbar icon.
+
+For per-tab badges, you may need the `"tabs"` permission to access tab IDs:
+
+```json
+{
+  "permissions": ["tabs"]
 }
 ```
 
 ## Part of @zovo/webext
 
-`webext-badge` is part of the @zovo/webext ecosystem — a collection of typed utilities for Chrome extension development.
+`webext-badge` is part of the Zovo ecosystem for building Chrome extensions:
 
-Explore other packages:
-
-- [webext-storage](https://github.com/theluckystrike/webext-storage) — Typed wrapper for chrome.storage
-- [webext-messaging](https://github.com/theluckystrike/webext-messaging) — Type-safe message passing
-- [webext-tabs](https://github.com/theluckystrike/webext-tabs) — Enhanced tab management
-- [webext-contextmenus](https://github.com/theluckystrike/webext-contextmenus) — Typed context menus
-- [webext-i18n](https://github.com/theluckystrike/webext-i18n) — Internationalization utilities
+- **[webext-badge](https://github.com/theluckystrike/webext-badge)** — Badge text and color management
+- **[webext-storage](https://github.com/theluckystrike/webext-storage)** — Typed wrapper for chrome.storage
+- **[webext-messaging](https://github.com/theluckystrike/webext-messaging)** — Type-safe messaging between contexts
+- **[webext-events](https://github.com/theluckystrike/webext-events)** — Typed event handlers
 
 ## License
 
@@ -197,4 +225,4 @@ MIT
 
 ---
 
-Built by [theluckystrike](https://github.com/theluckystrike) — [zovo.one](https://zovo.one)
+Built by [theluckystrike](https://github.com/theluckystrike) | [zovo.one](https://zovo.one)
